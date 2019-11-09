@@ -2,6 +2,7 @@
 
 // for use Meteor Engine by application
 #include "meteor/application.h"
+#include "meteor/log.h"
 
 /// Entry Point //////////////////////////////////////////////////////////
 #include "meteor/entry_point.h"
