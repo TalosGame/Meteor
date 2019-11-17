@@ -1,9 +1,9 @@
 #pragma once
 
 // for use Meteor Engine by application
-#include "meteor/application.h"
-#include "meteor/log.h"
+#include "meteor/core/application.h"
+#include "meteor/core/log.h"
 
 /// Entry Point //////////////////////////////////////////////////////////
-#include "meteor/entry_point.h"
+#include "meteor/core/entry_point.h"
 //////////////////////////////////////////////////////////////////////////

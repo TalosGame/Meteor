@@ -10,6 +10,15 @@ workspace "Meteor"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+-- Include directories relative to root folder (solution directory)
+IncludeDir = {}
+IncludeDir["GLFW"] = "Meteor/third_party/GLFW/include"
+
+group "Dependencies"
+	include "Meteor/third_party/GLFW"
+
+group ""
+
 project "Meteor"
 	location "Meteor"
 	kind "SharedLib"
@@ -20,6 +29,9 @@ project "Meteor"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
+	pchheader "mtrpch.h"
+	pchsource "Meteor/src/mtrpch.cpp"
+
 	files
 	{
 		"%{prj.name}/src/**.cpp",
@@ -28,7 +40,15 @@ project "Meteor"
 
 	includedirs
 	{
-		"%{prj.name}/third_party/spdlog/include"
+		"%{prj.name}/src",
+		"%{prj.name}/third_party/spdlog/include",
+		"%{IncludeDir.GLFW}",
+	}
+
+	links 
+	{ 
+		"GLFW",
+		"opengl32.lib"
 	}
 
 	filter "system:windows"
@@ -37,7 +57,8 @@ project "Meteor"
 		defines
 		{
 			"MTR_PLATFORM_WINDOWS",
-			"MTR_BUILD_DLL"
+			"MTR_BUILD_DLL",
+			"MTR_ENABLE_ASSERTS"
 		}
 
 		postbuildcommands

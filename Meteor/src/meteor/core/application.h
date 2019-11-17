@@ -1,6 +1,5 @@
-#pragma once
-
 #include "core.h"
+#include "window.h"
 
 __MTR_NS_BEGIN__
 
@@ -11,6 +10,10 @@ public:
 	~Application();
 
 	void run();
+
+private:
+	std::unique_ptr<Window> window_;
+	bool running_ = true;
 };
 
 Application* create_application();

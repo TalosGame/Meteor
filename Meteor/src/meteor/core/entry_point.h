@@ -16,10 +16,10 @@ int main(int argc, char** argv)
 {
 	mtr::Log::init();
 
-	MTR_CLIENT_LOG_WARN("Meteor Engine!");
+	MTR_WARN("Meteor Engine!");
 
 	int a = 5;
-	MTR_CLIENT_LOG_TRACE("Hello! val={0}", a);
+	MTR_TRACE("Hello! val={0}", a);
 
 	auto app = mtr::create_application();
 	app->run();
