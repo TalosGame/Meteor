@@ -18,9 +18,6 @@ int main(int argc, char** argv)
 
 	MTR_WARN("Meteor Engine!");
 
-	int a = 5;
-	MTR_TRACE("Hello! val={0}", a);
-
 	auto app = mtr::create_application();
 	app->run();
 	delete app;

@@ -45,10 +45,10 @@ private:
 	int repeat_count_;
 };
 
-class MTR_API KeyReleaseEvent : public KeyEvent
+class MTR_API KeyReleasedEvent : public KeyEvent
 {
 public:
-	KeyReleaseEvent(int key_code) : KeyEvent(key_code) {}
+	KeyReleasedEvent(int key_code) : KeyEvent(key_code) {}
 
 	std::string to_string() const override
 	{

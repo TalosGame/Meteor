@@ -67,7 +67,7 @@ public:
 	{
 		if (event_.get_event_type() == T::get_static_type())
 		{
-			event_.handled = func(static_cast<T&>(m_Event));
+			event_.handled = func(static_cast<T&>(event_));
 			return true;
 		}
 

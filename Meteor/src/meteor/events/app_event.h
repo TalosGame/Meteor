@@ -35,6 +35,15 @@ private:
 	uint32 height_;
 };
 
+class WindowCloseEvent : public Event
+{
+public:
+	WindowCloseEvent() = default;
+
+	EVENT_CLASS_TYPE(kWindowClose)
+	EVENT_CLASS_CATEGORY(kEventCategoryApplication)
+};
+
 __MTR_NS_END__
 
 #endif // __MTR_APP_EVENT_H__
