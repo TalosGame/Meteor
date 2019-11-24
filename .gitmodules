@@ -1,6 +1,8 @@
 [submodule "Meteor/third_party/spdlog"]
 	path = Meteor/third_party/spdlog
 	url = https://github.com/gabime/spdlog.git
+	ignore = dirty
 [submodule "Meteor/third_party/GLFW"]
 	path = Meteor/third_party/GLFW
 	url = https://github.com/TheCherno/glfw.git
+	ignore = dirty
