@@ -13,9 +13,11 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 -- Include directories relative to root folder (solution directory)
 IncludeDir = {}
 IncludeDir["GLFW"] = "Meteor/third_party/GLFW/include"
+IncludeDir["Glad"] = "Meteor/third_party/Glad/include"
 
 group "Dependencies"
 	include "Meteor/third_party/GLFW"
+	include "Meteor/third_party/Glad"
 
 group ""
 
@@ -43,11 +45,13 @@ project "Meteor"
 		"%{prj.name}/src",
 		"%{prj.name}/third_party/spdlog/include",
 		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}",
 	}
 
 	links 
 	{ 
 		"GLFW",
+		"Glad",
 		"opengl32.lib"
 	}
 
@@ -58,7 +62,8 @@ project "Meteor"
 		{
 			"MTR_PLATFORM_WINDOWS",
 			"MTR_BUILD_DLL",
-			"MTR_ENABLE_ASSERTS"
+			"MTR_ENABLE_ASSERTS",
+			"GLFW_INCLUDE_NONE"
 		}
 
 		postbuildcommands

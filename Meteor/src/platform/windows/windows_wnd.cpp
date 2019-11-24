@@ -7,6 +7,9 @@
  */
 
 #include "mtrpch.h"
+
+#include "glad/glad.h"
+
 #include "meteor/core/core.h"
 #include "windows_wnd.h"
 #include "meteor/events/app_event.h"
@@ -50,6 +53,10 @@ void WindowsWnd::init(const WindowProps& props)
 
 	window_ = glfwCreateWindow(props.width_, props.height_, props.title_.c_str(), nullptr, nullptr);
 	glfwMakeContextCurrent(window_);
+
+	int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+	MTR_CORE_ASSERT(status, "Failed to intialize Glad!");
+
 	glfwSetWindowUserPointer(window_, &data_);
 	set_vsync(true);
 
