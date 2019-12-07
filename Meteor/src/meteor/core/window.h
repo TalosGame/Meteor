@@ -9,7 +9,6 @@
 #ifndef __MTR_WINDOW_H__
 #define __MTR_WINDOW_H__
 
-#include "mtrpch.h"
 #include "core.h"
 #include "meteor/events/event.h"
 

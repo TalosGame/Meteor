@@ -9,8 +9,8 @@
 #ifndef __MTR_WINDOWS_WND_H__
 #define __MTR_WINDOWS_WND_H__
 
-#include "mtrpch.h"
 #include "meteor/core/window.h"
+#include "meteor/renderer/graphics_context.h"
 
 #include <GLFW/glfw3.h>
 
@@ -38,6 +38,7 @@ private:
 	virtual void shut_down();
 private:
 	GLFWwindow* window_;
+	GraphicsContext* context_;
 
 	struct WindowData
 	{

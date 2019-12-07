@@ -6,7 +6,12 @@ workspace "Meteor"
     {
         "Debug",
         "Release"
-    }
+	}
+	
+	flags
+	{
+		"MultiProcessorCompile"
+	}
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
@@ -14,6 +19,7 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}
 IncludeDir["GLFW"] = "Meteor/third_party/GLFW/include"
 IncludeDir["Glad"] = "Meteor/third_party/Glad/include"
+IncludeDir["glm"]  = "Meteor/third_party/glm"
 
 group "Dependencies"
 	include "Meteor/third_party/GLFW"
@@ -23,7 +29,7 @@ group ""
 
 project "Meteor"
 	location "Meteor"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
 	cppdialect "C++11"
 	staticruntime "on"
@@ -37,7 +43,14 @@ project "Meteor"
 	files
 	{
 		"%{prj.name}/src/**.cpp",
-		"%{prj.name}/src/**.h"
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/third_party/glm/glm/**.hpp",
+		"%{prj.name}/third_party/glm/glm/**.inl",
+	}
+
+	defines
+	{
+		"_CRT_SECURE_NO_WARNINGS"
 	}
 
 	includedirs
@@ -46,6 +59,7 @@ project "Meteor"
 		"%{prj.name}/third_party/spdlog/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
+		"%{IncludeDir.glm}",
 	}
 
 	links 
@@ -62,28 +76,26 @@ project "Meteor"
 		{
 			"MTR_PLATFORM_WINDOWS",
 			"MTR_BUILD_DLL",
-			"MTR_ENABLE_ASSERTS",
-			"GLFW_INCLUDE_NONE"
+			"GLFW_INCLUDE_NONE",
+			"MTR_ENABLE_ASSERTS"			
 		}
 
-		postbuildcommands
-		{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
-		}
-		 
 	filter "configurations:Debug"
 		defines "MTR_DEBUG"
-		symbols "On"
+		runtime "Debug"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "MTR_RELEASE"
-		optimize "On"
-	
+		runtime "Release"
+		optimize "on"
 
 project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
+	cppdialect "C++11"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -97,7 +109,9 @@ project "Sandbox"
 	includedirs
 	{
 		"Meteor/third_party/spdlog/include",
-		"Meteor/src"
+		"Meteor/src",
+		"Meteor/third_party",
+		"%{IncludeDir.glm}",
 	}
 
 	links
@@ -115,9 +129,11 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "MTR_DEBUG"
-		symbols "On"
+		runtime "Debug"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "MTR_RELEASE"
-		optimize "On"
+		runtime "Release"
+		optimize "on"
 	

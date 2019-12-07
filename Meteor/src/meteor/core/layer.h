@@ -9,7 +9,6 @@
 #ifndef __MTR_LAYER_H__
 #define __MTR_LAYER_H__
 
-#include "mtrpch.h"
 #include "meteor/core/core.h"
 #include "meteor/events/event.h"
 

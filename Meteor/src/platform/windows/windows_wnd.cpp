@@ -8,13 +8,13 @@
 
 #include "mtrpch.h"
 
-#include "glad/glad.h"
-
 #include "meteor/core/core.h"
 #include "windows_wnd.h"
 #include "meteor/events/app_event.h"
 #include "meteor/events/key_event.h"
 #include "meteor/events/mouse_event.h"
+
+#include "platform/opengl/opengl_context.h"
 
 __MTR_NS_BEGIN__
 
@@ -52,10 +52,9 @@ void WindowsWnd::init(const WindowProps& props)
 	}
 
 	window_ = glfwCreateWindow(props.width_, props.height_, props.title_.c_str(), nullptr, nullptr);
-	glfwMakeContextCurrent(window_);
 
-	int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-	MTR_CORE_ASSERT(status, "Failed to intialize Glad!");
+	context_ = new OpenGLContext(window_);
+	context_->init();
 
 	glfwSetWindowUserPointer(window_, &data_);
 	set_vsync(true);
@@ -143,7 +142,7 @@ void WindowsWnd::shut_down()
 void WindowsWnd::update()
 {
 	glfwPollEvents();
-	glfwSwapBuffers(window_);
+	context_->swap_buffers();
 }
 
 void WindowsWnd::set_vsync(bool enabled)

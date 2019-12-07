@@ -19,15 +19,20 @@
 	#define __MTR_NS_END__
 #endif
 
+ // DLL support
 #ifdef MTR_PLATFORM_WINDOWS
-	#ifdef MTR_BUILD_DLL
-		#define MTR_API __declspec(dllexport)
+	#if MTR_DYNAMIC_LINK
+		#ifdef MTR_BUILD_DLL
+			#define MTR_API __declspec(dllexport)
+		#else
+			#define MTR_API __declspec(dllimport)
+		#endif
 	#else
-		#define MTR_API __declspec(dllimport)
+		#define MTR_API
 	#endif
 #else
 	#error Meteor only support Windows!
-#endif // MTR_PLATFORM_WINDOWS
+#endif // end of dll surpport
 
 #ifdef MTR_ENABLE_ASSERTS
 	#define MTR_ASSERT(x, ...) { if(!(x)) { MTR_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }

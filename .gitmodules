@@ -6,3 +6,6 @@
 	path = Meteor/third_party/GLFW
 	url = https://github.com/TheCherno/glfw.git
 	ignore = dirty
+[submodule "Meteor/third_party/glm"]
+	path = Meteor/third_party/glm
+	url = https://github.com/g-truc/glm.git

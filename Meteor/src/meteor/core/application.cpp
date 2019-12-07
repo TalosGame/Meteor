@@ -7,14 +7,9 @@
 
 __MTR_NS_BEGIN__
 
-Application* Application::instance_ = nullptr;
-
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
-Application* Application::get_instance() 
-{
-	return instance_;
-}
+Application* Application::instance_ = nullptr;
 
 Application::Application()
 {
@@ -23,16 +18,62 @@ Application::Application()
 	window_ = std::unique_ptr<Window>(Window::create());
 	window_->set_event_call_back(BIND_EVENT_FN(handle_event));
 
-	MTR_CORE_INFO("Graphics Cards: {0}", glGetString(GL_RENDERER));
-	MTR_CORE_INFO("OpenGL version: {0}", glGetString(GL_VERSION));
+	float vertices[3 * 3] = {
+		-0.5f, -0.5f, 0.0f,
+		0.5f, -0.5f, 0.0f,
+		0.0f, 0.5f, 0.0f
+	};
+
+	uint32 indices[3] = { 0, 1, 2 };
+
+	glGenVertexArrays(1, &vertexArray_);
+	glBindVertexArray(vertexArray_);
+
+	vertex_buffer_.reset(VertexBuffer::create(vertices, sizeof(vertices)));
+	
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, false, 3 * sizeof(float), nullptr);
+
+	index_buffer_.reset(IndexBuffer::create(indices, sizeof(indices) / sizeof(uint32)));
+
+	std::string vertex_src = R"(
+		#version 330 core
+
+		layout(location = 0) in vec3 a_Position;
+		out vec3 v_Position;
+
+		void main()
+		{
+			v_Position = a_Position;
+			gl_Position = vec4(a_Position, 1.0f);
+		}
+	)";
+
+	std::string fragment_src = R"(
+		#version 330 core
+
+		layout(location = 0) out vec4 color;
+		in vec3 v_Position;
+		
+		void main()
+		{
+			color = vec4(v_Position * 0.5f + 0.5f, 1.0f);
+		}
+	)";
+
+	shader_.reset(new Shader(vertex_src, fragment_src));
 }
 
 void Application::run()
 {
 	while (running_) 
 	{
-		glClearColor(1, 0, 1, 1);
+		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		shader_->bind();
+		glBindVertexArray(vertexArray_);
+		glDrawElements(GL_TRIANGLES, index_buffer_->get_count(), GL_UNSIGNED_INT, nullptr);
 
 		for (auto layer : layer_stack_)
 		{
@@ -47,8 +88,6 @@ void Application::handle_event(Event& e)
 {
 	EventDispatcher dispatcher(e);
 	dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(handle_window_close));
-
-	MTR_CORE_TRACE("{0}", e);
 
 	for (auto it = layer_stack_.end(); it != layer_stack_.begin();)
 	{

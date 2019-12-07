@@ -9,7 +9,6 @@
 #ifndef __MTR_WINDOWS_INPUT_H__
 #define __MTR_WINDOWS_INPUT_H__
 
-#include "mtrpch.h"
 #include "meteor/core/core.h"
 #include "meteor/core/input.h"
 
@@ -29,5 +28,3 @@ protected:
 __MTR_NS_END__
 
 #endif // __MTR_WINDOWS_INPUT_H__
- 
- 

@@ -5,12 +5,10 @@
  * Author: 		miller
  * Desc:
  */
- 
-#include "meteor.h"
 
-__MTR_NS_BEGIN__
+#include <meteor.h>
 
-class TestLayer : public Layer
+class TestLayer : public mtr::Layer
 {
 public:
 	TestLayer() 
@@ -25,9 +23,9 @@ public:
 
 	}
 
-	virtual void handle_event(Event& evt) override 
+	virtual void handle_event(mtr::Event& evt) override 
 	{
-		if (evt.get_event_type() == EventType::kKeyPressed) 
+		if (evt.get_event_type() == mtr::EventType::kKeyPressed) 
 		{
 			auto e = (mtr::KeyPressedEvent&)evt;
 			MTR_INFO(e.get_key_code());
@@ -35,7 +33,7 @@ public:
 	}
 };
 
-class Sandbox : public Application
+class Sandbox : public mtr::Application
 {
 public:
 	Sandbox()
@@ -52,9 +50,7 @@ private:
 
 };
 
-Application* create_application() 
+mtr::Application* mtr::create_application() 
 {
 	return new Sandbox();
 }
-
-__MTR_NS_END__
