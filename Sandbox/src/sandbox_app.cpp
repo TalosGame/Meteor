@@ -18,12 +18,12 @@ public:
 
 	~TestLayer() = default;
 
-	virtual void update() override
+	virtual void Update() override
 	{
 
 	}
 
-	virtual void handle_event(mtr::Event& evt) override 
+	virtual void HandleEvent(mtr::Event& evt) override 
 	{
 		if (evt.get_event_type() == mtr::EventType::kKeyPressed) 
 		{
@@ -38,7 +38,7 @@ class Sandbox : public mtr::Application
 public:
 	Sandbox()
 	{
-		push_layer(new TestLayer());
+		PushLayer(new TestLayer());
 	}
 
 	~Sandbox()
@@ -50,7 +50,7 @@ private:
 
 };
 
-mtr::Application* mtr::create_application() 
+mtr::Application* mtr::CreateApplication() 
 {
 	return new Sandbox();
 }

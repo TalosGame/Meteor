@@ -17,12 +17,12 @@ __MTR_NS_BEGIN__
 class MTR_API WindowsInput : public Input
 {
 protected:
-	virtual bool is_key_pressedImpl(int key_code) override;
+	virtual bool IsKeyPressedImpl(int key_code) override;
 	
-	virtual bool is_mouse_pressedImpl(int btn) override;
-	virtual std::pair<float, float> get_mouse_positionImpl() override;
-	virtual float get_mouse_xImpl() override;
-	virtual float get_mouse_yImpl() override;
+	virtual bool IsMousePressedImpl(int btn) override;
+	virtual std::pair<float, float> GetMousePositionImpl() override;
+	virtual float GetMouseXImpl() override;
+	virtual float GetMouseYImpl() override;
 };
 
 __MTR_NS_END__

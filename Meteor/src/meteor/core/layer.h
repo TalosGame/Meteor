@@ -20,10 +20,10 @@ public:
 	Layer(const std::string& name = "Layer") : debug_name_(name) {}
 	virtual ~Layer() = default;
 
-	virtual void attach() {}
-	virtual void detach() {}
-	virtual void update() = 0;
-	virtual void handle_event(Event& evt) {}
+	virtual void Attach() {}
+	virtual void Detach() {}
+	virtual void Update() = 0;
+	virtual void HandleEvent(Event& evt) {}
 
 	inline const std::string& get_name() { return debug_name_; }
 

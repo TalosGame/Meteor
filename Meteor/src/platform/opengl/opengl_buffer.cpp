@@ -28,12 +28,12 @@ OpenGLVertexBuffer::~OpenGLVertexBuffer()
 	glDeleteBuffers(1, &renderer_id_);
 }
 
-void OpenGLVertexBuffer::bind() const
+void OpenGLVertexBuffer::Bind() const
 {
 	glBindBuffer(GL_ARRAY_BUFFER, renderer_id_);
 }
 
-void OpenGLVertexBuffer::unbind() const
+void OpenGLVertexBuffer::Unbind() const
 {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
@@ -43,7 +43,7 @@ void OpenGLVertexBuffer::unbind() const
 //////////////////////////////////////////////////////////////////////////
 OpenGLIndexBuffer::OpenGLIndexBuffer(uint32* indices, uint32 count) : count_(count)
 {
-	glGenBuffers(1, &renderer_id_);
+	glCreateBuffers(1, &renderer_id_);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, renderer_id_);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER,  count * sizeof(uint32), indices, GL_STATIC_DRAW);
 }
@@ -53,12 +53,12 @@ mtr::OpenGLIndexBuffer::~OpenGLIndexBuffer()
 	glDeleteBuffers(1, &renderer_id_);
 }
 
-void mtr::OpenGLIndexBuffer::bind() const
+void mtr::OpenGLIndexBuffer::Bind() const
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, renderer_id_);
 }
 
-void mtr::OpenGLIndexBuffer::unbind() const
+void mtr::OpenGLIndexBuffer::Unbind() const
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }

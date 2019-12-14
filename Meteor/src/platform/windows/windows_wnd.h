@@ -22,17 +22,17 @@ public:
 	WindowsWnd(const WindowProps& props);
 	virtual ~WindowsWnd();
 
-	void update() override;
+	void Update() override;
 
-	inline uint32 get_width() const override { return data_.width_; }
-	inline uint32 get_height() const override { return data_.height_; }
+	inline uint32 GetWidth() const override { return data_.width_; }
+	inline uint32 GetHeight() const override { return data_.height_; }
 
 	// Window attributes
-	inline void set_event_call_back(const event_call_back& callback) override { data_.call_back_ = callback; }
-	void set_vsync(bool enabled) override;
-	bool is_vsync() const override;
+	inline void SetEventCallBack(const event_call_back& callback) override { data_.call_back_ = callback; }
+	void SetVsync(bool enabled) override;
+	bool IsVsync() const override;
 
-	inline virtual void* get_native_window() const { return window_; }
+	inline virtual void* GetNativeWindow() const { return window_; }
 private:
 	virtual void init(const WindowProps& props);
 	virtual void shut_down();

@@ -33,19 +33,19 @@ public:
 
 	virtual ~Window() = default;
 
-	virtual void update() = 0;
+	virtual void Update() = 0;
 
-	virtual uint32 get_width() const = 0;
-	virtual uint32 get_height() const = 0;
+	virtual uint32 GetWidth() const = 0;
+	virtual uint32 GetHeight() const = 0;
 
 	// window attributes
-	virtual void set_event_call_back(const event_call_back& call_back) = 0;
-	virtual void set_vsync(bool enable) = 0;
-	virtual bool is_vsync() const = 0;
+	virtual void SetEventCallBack(const event_call_back& call_back) = 0;
+	virtual void SetVsync(bool enable) = 0;
+	virtual bool IsVsync() const = 0;
 
-	virtual void* get_native_window() const = 0;
+	virtual void* GetNativeWindow() const = 0;
 
-	static Window* create(const WindowProps& props = WindowProps());
+	static Window* Create(const WindowProps& props = WindowProps());
 };
 
 __MTR_NS_END__

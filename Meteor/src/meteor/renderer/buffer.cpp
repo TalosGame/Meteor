@@ -16,7 +16,7 @@ __MTR_NS_BEGIN__
 
 VertexBuffer* VertexBuffer::create(float * vertices, uint64 size)
 {
-	switch (Renderer::get_api())
+	switch (Renderer::GetApi())
 	{
 	case RendererAPI::None:		MTR_CORE_ASSERT(false, "RendererAPI::None type is wrong!") return nullptr;
 	case RendererAPI::OpenGL:	return new OpenGLVertexBuffer(vertices, size);
@@ -28,7 +28,7 @@ VertexBuffer* VertexBuffer::create(float * vertices, uint64 size)
 
 IndexBuffer * IndexBuffer::create(uint32 * indices, uint32 count)
 {
-	switch (Renderer::get_api())
+	switch (Renderer::GetApi())
 	{
 	case RendererAPI::None:		MTR_CORE_ASSERT(false, "RendererAPI::None type is wrong!") return nullptr;
 	case RendererAPI::OpenGL:	return new OpenGLIndexBuffer(indices, count);

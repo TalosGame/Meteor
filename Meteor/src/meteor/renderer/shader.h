@@ -20,8 +20,8 @@ public:
 	Shader(const std::string& vert_src, const std::string& frag_src);
 	~Shader();
 
-	void bind();
-	void unbind();
+	void Bind();
+	void Unbind();
 
 private:
 	uint32 renderer_id_;

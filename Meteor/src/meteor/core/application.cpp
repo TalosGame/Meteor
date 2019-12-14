@@ -15,36 +15,48 @@ Application::Application()
 {
 	instance_ = this;
 
-	window_ = std::unique_ptr<Window>(Window::create());
-	window_->set_event_call_back(BIND_EVENT_FN(handle_event));
+	window_ = std::unique_ptr<Window>(Window::Create());
+	window_->SetEventCallBack(BIND_EVENT_FN(HandleEvent));
 
-	float vertices[3 * 3] = {
-		-0.5f, -0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
-		0.0f, 0.5f, 0.0f
+	float vertices[3 * 7] = {
+		-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+		 0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+		 0.0f,  0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f
 	};
 
 	uint32 indices[3] = { 0, 1, 2 };
 
-	glGenVertexArrays(1, &vertexArray_);
-	glBindVertexArray(vertexArray_);
+	vertex_array_.reset(VertexArray::create());
 
-	vertex_buffer_.reset(VertexBuffer::create(vertices, sizeof(vertices)));
-	
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, false, 3 * sizeof(float), nullptr);
+	std::shared_ptr<VertexBuffer> vertex_buffer;
+	vertex_buffer.reset(VertexBuffer::create(vertices, sizeof(vertices)));
+	{
+		BufferLayout layout = {
+			{ShaderDataType::Float3, "a_Position"},
+			{ShaderDataType::Float4, "a_Color"}
+		};
 
-	index_buffer_.reset(IndexBuffer::create(indices, sizeof(indices) / sizeof(uint32)));
+		vertex_buffer->set_layout(layout);
+	}
+
+	std::shared_ptr<IndexBuffer> index_buffer;
+	index_buffer.reset(IndexBuffer::create(indices, sizeof(indices) / sizeof(uint32)));
+
+	vertex_array_->AddVertexBuffer(vertex_buffer);
+	vertex_array_->SetIndexBuffer(index_buffer);
 
 	std::string vertex_src = R"(
 		#version 330 core
 
 		layout(location = 0) in vec3 a_Position;
+		layout(location = 1) in vec4 a_Color;
 		out vec3 v_Position;
+		out vec4 v_Color;
 
 		void main()
 		{
 			v_Position = a_Position;
+			v_Color = a_Color;
 			gl_Position = vec4(a_Position, 1.0f);
 		}
 	)";
@@ -54,60 +66,62 @@ Application::Application()
 
 		layout(location = 0) out vec4 color;
 		in vec3 v_Position;
+		in vec4 v_Color;
 		
 		void main()
 		{
 			color = vec4(v_Position * 0.5f + 0.5f, 1.0f);
+			color = v_Color;
 		}
 	)";
 
 	shader_.reset(new Shader(vertex_src, fragment_src));
 }
 
-void Application::run()
+void Application::Run()
 {
 	while (running_) 
 	{
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		shader_->bind();
-		glBindVertexArray(vertexArray_);
-		glDrawElements(GL_TRIANGLES, index_buffer_->get_count(), GL_UNSIGNED_INT, nullptr);
+		shader_->Bind();
+		vertex_array_->Bind();
+		glDrawElements(GL_TRIANGLES, vertex_array_->GetIndexBuffer()->get_count(), GL_UNSIGNED_INT, nullptr);
 
 		for (auto layer : layer_stack_)
 		{
-			layer->update();
+			layer->Update();
 		}
 
-		window_->update();
+		window_->Update();
 	}
 }
 
-void Application::handle_event(Event& e)
+void Application::HandleEvent(Event& e)
 {
 	EventDispatcher dispatcher(e);
-	dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(handle_window_close));
+	dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(HandleWindowClose));
 
 	for (auto it = layer_stack_.end(); it != layer_stack_.begin();)
 	{
-		(*--it)->handle_event(e);
+		(*--it)->HandleEvent(e);
 
 		if (e.handled) break;
 	}
 }
 
-void Application::push_layer(Layer * layer)
+void Application::PushLayer(Layer * layer)
 {
-	layer_stack_.push_layer(layer);
+	layer_stack_.PushLayer(layer);
 }
 
-void Application::push_overlay(Layer * layer)
+void Application::PushOverlay(Layer * layer)
 {
-	layer_stack_.push_overlay(layer);
+	layer_stack_.PushOverlay(layer);
 }
 
-bool Application::handle_window_close(WindowCloseEvent& evt)
+bool Application::HandleWindowClose(WindowCloseEvent& evt)
 {
 	running_ = false;
 	return true;

@@ -21,10 +21,10 @@ public:
 	LayerStack() = default;
 	~LayerStack();
 
-	void push_layer(Layer* layer);
-	void push_overlay(Layer* layer);
-	void pop_layer(Layer* layer);
-	void pop_overlay(Layer* layer);
+	void PushLayer(Layer* layer);
+	void PushOverlay(Layer* layer);
+	void PopLayer(Layer* layer);
+	void PopOverlay(Layer* layer);
 
 	std::vector<Layer*>::iterator begin() { return layers_.begin(); }
 	std::vector<Layer*>::iterator end() { return layers_.end(); }

@@ -19,7 +19,7 @@ OpenGLContext::OpenGLContext(GLFWwindow* window_handle) : window_handle_(window_
 	MTR_CORE_ASSERT(window_handle_, "Window handle is null!");
 }
 
-void OpenGLContext::init()
+void OpenGLContext::Init()
 {
 	glfwMakeContextCurrent(window_handle_);
 	int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
@@ -30,7 +30,7 @@ void OpenGLContext::init()
 	MTR_CORE_INFO("Version: {0}", glGetString(GL_VERSION));
 }
 
-void OpenGLContext::swap_buffers()
+void OpenGLContext::SwapBuffers()
 {
 	glfwSwapBuffers(window_handle_);
 }

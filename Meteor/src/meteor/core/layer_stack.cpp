@@ -15,41 +15,41 @@ LayerStack::~LayerStack()
 {
 	for (auto layer : layers_)
 	{
-		layer->detach();
+		layer->Detach();
 		delete layer;
 	}
 }
 
-void LayerStack::push_layer(Layer * layer)
+void LayerStack::PushLayer(Layer * layer)
 {
 	layers_.emplace(layers_.begin() + layer_index_, layer);
-	layer->attach();
+	layer->Attach();
 	layer_index_++;
 }
 
-void LayerStack::push_overlay(Layer * layer)
+void LayerStack::PushOverlay(Layer * layer)
 {
 	layers_.emplace_back(layer);
-	layer->attach();
+	layer->Attach();
 }
 
-void LayerStack::pop_layer(Layer * layer)
+void LayerStack::PopLayer(Layer * layer)
 {
 	auto it = std::find(layers_.begin(), layers_.begin() + layer_index_, layer);
 	if (it != layers_.begin() + layer_index_) 
 	{
-		layer->detach();
+		layer->Detach();
 		layers_.erase(it);
 		layer_index_--;
 	}
 }
 
-void LayerStack::pop_overlay(Layer * layer)
+void LayerStack::PopOverlay(Layer * layer)
 {
 	auto it = std::find(layers_.begin(), layers_.end(), layer);
 	if (it != layers_.end())
 	{
-		layer->detach();
+		layer->Detach();
 		layers_.erase(it);
 	}
 }

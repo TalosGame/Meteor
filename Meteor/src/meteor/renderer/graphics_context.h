@@ -15,8 +15,8 @@ __MTR_NS_BEGIN__
 class GraphicsContext
 {
 public:
-	virtual void init() = 0;
-	virtual void swap_buffers() = 0;
+	virtual void Init() = 0;
+	virtual void SwapBuffers() = 0;
 };
 
 __MTR_NS_END__

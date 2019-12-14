@@ -49,7 +49,7 @@ public:
 	virtual int get_category_flags() const = 0;
 	virtual std::string to_string() const { return get_name(); }
 
-	inline bool is_category(EventCategory category) 
+	inline bool IsCategory(EventCategory category) 
 	{
 		return get_category_flags() & category;
 	}
@@ -63,7 +63,7 @@ public:
 	EventDispatcher(Event& event) : event_(event) { }
 	
 	template<typename T, typename F>
-	bool dispatch(const F& func)
+	bool Dispatch(const F& func)
 	{
 		if (event_.get_event_type() == T::get_static_type())
 		{

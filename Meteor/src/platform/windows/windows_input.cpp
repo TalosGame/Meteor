@@ -17,37 +17,37 @@ __MTR_NS_BEGIN__
 
 Input* Input::instance_ = new WindowsInput();
 
-bool WindowsInput::is_key_pressedImpl(int key_code)
+bool WindowsInput::IsKeyPressedImpl(int key_code)
 {
-	auto wnd = static_cast<GLFWwindow*>(Application::get_instance()->get_window().get_native_window());
+	auto wnd = static_cast<GLFWwindow*>(Application::get_instance()->GetWindow().GetNativeWindow());
 	int state = glfwGetKey(wnd, key_code);
 	return state == GLFW_PRESS || state == GLFW_REPEAT;
 }
 
-bool WindowsInput::is_mouse_pressedImpl(int btn)
+bool WindowsInput::IsMousePressedImpl(int btn)
 {
-	auto wnd = static_cast<GLFWwindow*>(Application::get_instance()->get_window().get_native_window());
+	auto wnd = static_cast<GLFWwindow*>(Application::get_instance()->GetWindow().GetNativeWindow());
 	int state = glfwGetMouseButton(wnd, btn);
 	return state == GLFW_PRESS;
 }
 
-std::pair<float, float> WindowsInput::get_mouse_positionImpl()
+std::pair<float, float> WindowsInput::GetMousePositionImpl()
 {
-	auto wnd = static_cast<GLFWwindow*>(Application::get_instance()->get_window().get_native_window());
+	auto wnd = static_cast<GLFWwindow*>(Application::get_instance()->GetWindow().GetNativeWindow());
 	double xpos, ypos;
 	glfwGetCursorPos(wnd, &xpos, &ypos);
 	return { (float)xpos, (float)ypos };
 }
 
-float WindowsInput::get_mouse_xImpl()
+float WindowsInput::GetMouseXImpl()
 {
-	auto positon = get_mouse_positionImpl();
+	auto positon = GetMousePositionImpl();
 	return positon.first;
 }
 
-float WindowsInput::get_mouse_yImpl()
+float WindowsInput::GetMouseYImpl()
 {
-	auto positon = get_mouse_positionImpl();
+	auto positon = GetMousePositionImpl();
 	return positon.second;
 }
 

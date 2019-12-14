@@ -17,20 +17,20 @@ __MTR_NS_BEGIN__
 class MTR_API Input
 {
 public:
-	inline static bool is_key_pressed(int key_code) { return instance_->is_key_pressedImpl(key_code); }
+	inline static bool IsKeyPressed(int key_code) { return instance_->IsKeyPressedImpl(key_code); }
 	
-	inline static bool is_mouse_pressed(int btn) { return instance_->is_mouse_pressedImpl(btn); }
-	inline static std::pair<float, float> get_mouse_position() { return instance_->get_mouse_positionImpl(); }
-	inline static float get_mouse_x() { return instance_->get_mouse_xImpl(); }
-	inline static float get_mouse_y() { return instance_->get_mouse_yImpl(); }
+	inline static bool IsMousePressed(int btn) { return instance_->IsMousePressedImpl(btn); }
+	inline static std::pair<float, float> GetMousePosition() { return instance_->GetMousePositionImpl(); }
+	inline static float GetMouseX() { return instance_->GetMouseXImpl(); }
+	inline static float GetMouseY() { return instance_->GetMouseYImpl(); }
 
 protected:
-	virtual bool is_key_pressedImpl(int key_code) = 0;
+	virtual bool IsKeyPressedImpl(int key_code) = 0;
 	
-	virtual bool is_mouse_pressedImpl(int btn) = 0;
-	virtual std::pair<float, float> get_mouse_positionImpl() = 0;
-	virtual float get_mouse_xImpl() = 0;
-	virtual float get_mouse_yImpl() = 0;
+	virtual bool IsMousePressedImpl(int btn) = 0;
+	virtual std::pair<float, float> GetMousePositionImpl() = 0;
+	virtual float GetMouseXImpl() = 0;
+	virtual float GetMouseYImpl() = 0;
 private:
 	static Input* instance_;
 };

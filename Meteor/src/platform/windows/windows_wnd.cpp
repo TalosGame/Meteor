@@ -25,7 +25,7 @@ static void GLFWErrorCallback(int error, const char* description)
 	MTR_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
 }
 
-Window* Window::create(const WindowProps& props)
+Window* Window::Create(const WindowProps& props)
 {
 	return new WindowsWnd(props);
 }
@@ -54,10 +54,10 @@ void WindowsWnd::init(const WindowProps& props)
 	window_ = glfwCreateWindow(props.width_, props.height_, props.title_.c_str(), nullptr, nullptr);
 
 	context_ = new OpenGLContext(window_);
-	context_->init();
+	context_->Init();
 
 	glfwSetWindowUserPointer(window_, &data_);
-	set_vsync(true);
+	SetVsync(true);
 
 	glfwSetWindowSizeCallback(window_, [](GLFWwindow* window, int width, int height){
 		WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
@@ -139,13 +139,13 @@ void WindowsWnd::shut_down()
 	glfwDestroyWindow(window_);
 }
 
-void WindowsWnd::update()
+void WindowsWnd::Update()
 {
 	glfwPollEvents();
-	context_->swap_buffers();
+	context_->SwapBuffers();
 }
 
-void WindowsWnd::set_vsync(bool enabled)
+void WindowsWnd::SetVsync(bool enabled)
 {
 	if (enabled) 
 		glfwSwapInterval(1);
@@ -155,7 +155,7 @@ void WindowsWnd::set_vsync(bool enabled)
 	data_.vsync_ = enabled;
 }
 
-bool WindowsWnd::is_vsync() const
+bool WindowsWnd::IsVsync() const
 {
 	return data_.vsync_;
 }

@@ -23,7 +23,7 @@ enum class RendererAPI
 class Renderer
 {
 public:
-	static inline RendererAPI get_api() { return kRendererAPI; }
+	static inline RendererAPI GetApi() { return kRendererAPI; }
 private:
 	static RendererAPI kRendererAPI;
 };

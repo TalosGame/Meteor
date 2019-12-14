@@ -121,12 +121,12 @@ Shader::~Shader()
 	glDeleteProgram(renderer_id_);
 }
 
-void mtr::Shader::bind()
+void mtr::Shader::Bind()
 {
 	glUseProgram(renderer_id_);
 }
 
-void Shader::unbind()
+void Shader::Unbind()
 {
 	glUseProgram(0);
 }

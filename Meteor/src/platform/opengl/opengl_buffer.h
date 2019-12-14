@@ -21,11 +21,15 @@ public:
 	OpenGLVertexBuffer(float* vertices, uint64 size);
 	virtual ~OpenGLVertexBuffer();
 
-	virtual void bind() const override;
-	virtual void unbind() const override;
+	virtual void Bind() const override;
+	virtual void Unbind() const override;
+
+	virtual const BufferLayout& get_layout() const override { return layout_; };
+	virtual void set_layout(const BufferLayout& layout) override { layout_ = layout; };
 
 private:
 	uint32 renderer_id_;
+	BufferLayout layout_;
 };
 
 class OpenGLIndexBuffer : public IndexBuffer
@@ -34,8 +38,8 @@ public:
 	OpenGLIndexBuffer(uint32* indices, uint32 count);
 	virtual ~OpenGLIndexBuffer();
 
-	virtual void bind() const override;
-	virtual void unbind() const override;
+	virtual void Bind() const override;
+	virtual void Unbind() const override;
 	virtual uint32 get_count() const { return count_; };
 
 private:

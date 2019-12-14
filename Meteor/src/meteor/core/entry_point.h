@@ -10,7 +10,7 @@
 
 #include "log.h"
 
-extern mtr::Application* mtr::create_application();
+extern mtr::Application* mtr::CreateApplication();
 
 int main(int argc, char** argv)
 {
@@ -18,8 +18,8 @@ int main(int argc, char** argv)
 
 	MTR_WARN("Meteor Engine!");
 
-	auto app = mtr::create_application();
-	app->run();
+	auto app = mtr::CreateApplication();
+	app->Run();
 	delete app;
 
 	return 0;
