@@ -4,6 +4,7 @@
 #include "meteor/renderer/shader.h"
 #include "meteor/renderer/buffer.h"
 #include "meteor/renderer/vertex_array.h"
+#include "meteor/renderer/orthographic_camera.h"
 
 __MTR_NS_BEGIN__
 
@@ -31,8 +32,10 @@ private:
 	LayerStack layer_stack_;
 	bool running_ = true;
 
+	OrthographicCamera camera_;
+
 	std::shared_ptr<VertexArray> vertex_array_;
-	std::unique_ptr<Shader> shader_;
+	std::shared_ptr<Shader> shader_;
 private:
 	static Application* instance_;
 };

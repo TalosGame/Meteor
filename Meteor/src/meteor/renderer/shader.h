@@ -23,6 +23,8 @@ public:
 	void Bind();
 	void Unbind();
 
+	void UploadUniformMat4(const std::string& name, const glm::mat4& matrix);
+
 private:
 	uint32 renderer_id_;
 };

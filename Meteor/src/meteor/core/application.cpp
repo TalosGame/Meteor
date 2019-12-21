@@ -4,6 +4,8 @@
 
 #include "Application.h"
 #include "input.h"
+#include "meteor/renderer/renderer.h"
+#include "meteor/renderer/renderer_command.h"
 
 __MTR_NS_BEGIN__
 
@@ -11,7 +13,7 @@ __MTR_NS_BEGIN__
 
 Application* Application::instance_ = nullptr;
 
-Application::Application()
+Application::Application() : camera_(-1.6f, 1.6f, -0.9f, 0.9f)
 {
 	instance_ = this;
 
@@ -53,11 +55,13 @@ Application::Application()
 		out vec3 v_Position;
 		out vec4 v_Color;
 
+		uniform mat4 u_ViewProjection;
+
 		void main()
 		{
 			v_Position = a_Position;
 			v_Color = a_Color;
-			gl_Position = vec4(a_Position, 1.0f);
+			gl_Position = u_ViewProjection * vec4(a_Position, 1.0f);
 		}
 	)";
 
@@ -82,12 +86,17 @@ void Application::Run()
 {
 	while (running_) 
 	{
-		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		RendererCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+		RendererCommand::Clear();
 
-		shader_->Bind();
-		vertex_array_->Bind();
-		glDrawElements(GL_TRIANGLES, vertex_array_->GetIndexBuffer()->get_count(), GL_UNSIGNED_INT, nullptr);
+		//camera_.SetPostion({ 0.5f, 0.5f, 0.0f });
+		//camera_.SetRotaion(45.0f);
+
+		Renderer::BeginScene(camera_);
+		{
+			Renderer::Submit(shader_, vertex_array_);
+		}
+		Renderer::EndScene();
 
 		for (auto layer : layer_stack_)
 		{

@@ -11,25 +11,31 @@
 
 #include "mtrpch.h"
 #include "meteor/core/core.h"
+#include "renderer_api.h"
+#include "vertex_array.h"
+#include "orthographic_camera.h"
+#include "shader.h"
 
 __MTR_NS_BEGIN__
-
-enum class RendererAPI
-{
-	None = 0,
-	OpenGL = 1
-};
 
 class Renderer
 {
 public:
-	static inline RendererAPI GetApi() { return kRendererAPI; }
+	static void BeginScene(OrthographicCamera& camera);
+	static void EndScene();
+	static void Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertex_array);
+
+	static inline RendererAPI::API GetApi() { return RendererAPI::get_api(); }
+
 private:
-	static RendererAPI kRendererAPI;
+	struct SceneData
+	{
+		glm::mat4 vp_matrix_;
+	};
+
+	static SceneData* scene_data_;
 };
 
 __MTR_NS_END__
 
-#endif // __MTR_RENDERER_H__
- 
- 
+#endif // __MTR_RENDERER_H__ 

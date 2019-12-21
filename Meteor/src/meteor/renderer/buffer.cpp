@@ -9,17 +9,16 @@
 #include "mtrpch.h"
 #include "buffer.h"
 #include "renderer.h"
-
 #include "platform/opengl/opengl_buffer.h"
- 
+
 __MTR_NS_BEGIN__
 
 VertexBuffer* VertexBuffer::create(float * vertices, uint64 size)
 {
 	switch (Renderer::GetApi())
 	{
-	case RendererAPI::None:		MTR_CORE_ASSERT(false, "RendererAPI::None type is wrong!") return nullptr;
-	case RendererAPI::OpenGL:	return new OpenGLVertexBuffer(vertices, size);
+		case RendererAPI::API::None:		MTR_CORE_ASSERT(false, "RendererAPI::None type is wrong!") return nullptr;
+		case RendererAPI::API::OpenGL:		return new OpenGLVertexBuffer(vertices, size);
 	}
 
 	MTR_CORE_ASSERT(false, "Unknown RendererAPI!");
@@ -30,8 +29,8 @@ IndexBuffer * IndexBuffer::create(uint32 * indices, uint32 count)
 {
 	switch (Renderer::GetApi())
 	{
-	case RendererAPI::None:		MTR_CORE_ASSERT(false, "RendererAPI::None type is wrong!") return nullptr;
-	case RendererAPI::OpenGL:	return new OpenGLIndexBuffer(indices, count);
+		case RendererAPI::API::None:		MTR_CORE_ASSERT(false, "RendererAPI::None type is wrong!") return nullptr;
+		case RendererAPI::API::OpenGL:		return new OpenGLIndexBuffer(indices, count);
 	}
 
 	MTR_CORE_ASSERT(false, "Unknown RendererAPI!");

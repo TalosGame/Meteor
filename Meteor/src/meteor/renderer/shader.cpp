@@ -131,4 +131,10 @@ void Shader::Unbind()
 	glUseProgram(0);
 }
 
+void Shader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix)
+{
+	auto location = glGetUniformLocation(renderer_id_, name.c_str());
+	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+}
+
 __MTR_NS_END__
