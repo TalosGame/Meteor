@@ -18,7 +18,7 @@ __MTR_NS_BEGIN__
 class MTR_API Log
 {
 public:
-	static void init();
+	static void Init();
 
 	inline static std::shared_ptr<spdlog::logger>& get_core_log() { return core_logger_; }
 	inline static std::shared_ptr<spdlog::logger>& get_client_log() { return client_logger_; }

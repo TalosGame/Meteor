@@ -13,7 +13,7 @@
 
 __MTR_NS_BEGIN__
 
-VertexArray* VertexArray::create()
+VertexArray* VertexArray::Create()
 {
 	switch (Renderer::GetApi())
 	{

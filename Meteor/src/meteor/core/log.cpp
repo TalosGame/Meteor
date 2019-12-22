@@ -15,7 +15,7 @@ __MTR_NS_BEGIN__
 std::shared_ptr<spdlog::logger> Log::core_logger_;
 std::shared_ptr<spdlog::logger> Log::client_logger_;
 
-void Log::init() 
+void Log::Init() 
 {
 	spdlog::set_pattern("%^[%T] %n: %v%$");
 	core_logger_ = spdlog::stdout_color_mt("MTR");

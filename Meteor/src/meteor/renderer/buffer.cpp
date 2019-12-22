@@ -13,7 +13,7 @@
 
 __MTR_NS_BEGIN__
 
-VertexBuffer* VertexBuffer::create(float * vertices, uint64 size)
+VertexBuffer* VertexBuffer::Create(float * vertices, uint64 size)
 {
 	switch (Renderer::GetApi())
 	{
@@ -25,7 +25,7 @@ VertexBuffer* VertexBuffer::create(float * vertices, uint64 size)
 	return nullptr;
 }
 
-IndexBuffer * IndexBuffer::create(uint32 * indices, uint32 count)
+IndexBuffer * IndexBuffer::Create(uint32 * indices, uint32 count)
 {
 	switch (Renderer::GetApi())
 	{

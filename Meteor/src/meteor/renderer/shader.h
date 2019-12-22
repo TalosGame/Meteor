@@ -17,16 +17,12 @@ __MTR_NS_BEGIN__
 class Shader
 {
 public:
-	Shader(const std::string& vert_src, const std::string& frag_src);
-	~Shader();
+	virtual ~Shader() = default;
 
-	void Bind();
-	void Unbind();
+	virtual void Bind() = 0;
+	virtual void Unbind() = 0;
 
-	void UploadUniformMat4(const std::string& name, const glm::mat4& matrix);
-
-private:
-	uint32 renderer_id_;
+	static Shader* Create(const std::string& vert_src, const std::string& frag_src);
 };
 
 __MTR_NS_END__

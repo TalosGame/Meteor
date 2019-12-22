@@ -9,6 +9,7 @@
 #include "mtrpch.h"
 #include "Renderer.h"
 #include "renderer_command.h"
+#include "platform/opengl/opengl_shader.h"
  
 __MTR_NS_BEGIN__
 
@@ -24,10 +25,11 @@ void Renderer::EndScene()
 
 }
 
-void Renderer::Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertex_array) 
+void Renderer::Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertex_array, const glm::mat4& transfrom) 
 {
 	shader->Bind();
-	shader->UploadUniformMat4("u_ViewProjection", scene_data_->vp_matrix_);
+	std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_ViewProjection", scene_data_->vp_matrix_);
+	std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_ModelMatrix", transfrom);
 
 	vertex_array->Bind();
 	RendererCommand::DrawIndexed(vertex_array);

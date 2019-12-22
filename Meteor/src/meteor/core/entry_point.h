@@ -14,7 +14,7 @@ extern mtr::Application* mtr::CreateApplication();
 
 int main(int argc, char** argv)
 {
-	mtr::Log::init();
+	mtr::Log::Init();
 
 	MTR_WARN("Meteor Engine!");
 

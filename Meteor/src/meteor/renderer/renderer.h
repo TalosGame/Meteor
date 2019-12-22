@@ -23,7 +23,7 @@ class Renderer
 public:
 	static void BeginScene(OrthographicCamera& camera);
 	static void EndScene();
-	static void Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertex_array);
+	static void Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertex_array, const glm::mat4& transfrom = glm::mat4(1.0f));
 
 	static inline RendererAPI::API GetApi() { return RendererAPI::get_api(); }
 

@@ -126,7 +126,7 @@ public:
 	virtual const BufferLayout& get_layout() const = 0;
 	virtual void set_layout(const BufferLayout& layout) = 0;
 
-	static VertexBuffer* create(float* vertices, uint64 size);
+	static VertexBuffer* Create(float* vertices, uint64 size);
 };
 
 class IndexBuffer
@@ -138,7 +138,7 @@ public:
 	virtual void Unbind() const = 0;
 	virtual uint32 get_count() const = 0;
 
-	static IndexBuffer* create(uint32* indices, uint32 count);
+	static IndexBuffer* Create(uint32* indices, uint32 count);
 };
 
 __MTR_NS_END__

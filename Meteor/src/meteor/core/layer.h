@@ -11,6 +11,7 @@
 
 #include "meteor/core/core.h"
 #include "meteor/events/event.h"
+#include "time.h"
 
 __MTR_NS_BEGIN__
 
@@ -22,7 +23,7 @@ public:
 
 	virtual void Attach() {}
 	virtual void Detach() {}
-	virtual void Update() = 0;
+	virtual void Update(Time dt) = 0;
 	virtual void HandleEvent(Event& evt) {}
 
 	inline const std::string& get_name() { return debug_name_; }
