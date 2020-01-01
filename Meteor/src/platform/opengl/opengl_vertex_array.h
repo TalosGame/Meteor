@@ -24,17 +24,17 @@ public:
 	virtual void Bind() const override;
 	virtual void Unbind() const override;
 
-	virtual void AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertex_buffer) override;
-	virtual void SetIndexBuffer(const std::shared_ptr<IndexBuffer>& index_buffer) override;
+	virtual void AddVertexBuffer(const mtr::Ref<VertexBuffer>& vertex_buffer) override;
+	virtual void SetIndexBuffer(const mtr::Ref<IndexBuffer>& index_buffer) override;
 
-	virtual const std::vector<std::shared_ptr<VertexBuffer>>& GetVertexBuffer() const override { return vertext_buffers_; };
-	virtual const std::shared_ptr<IndexBuffer>& GetIndexBuffer() const override { return index_buffer_; };
+	virtual const std::vector<mtr::Ref<VertexBuffer>>& GetVertexBuffer() const override { return vertext_buffers_; };
+	virtual const mtr::Ref<IndexBuffer>& GetIndexBuffer() const override { return index_buffer_; };
 
 private:
 	uint32 renderer_id_;
 	uint32 vertext_buffer_index_ = 0;
-	std::vector<std::shared_ptr<VertexBuffer>> vertext_buffers_;
-	std::shared_ptr<IndexBuffer> index_buffer_;
+	std::vector<mtr::Ref<VertexBuffer>> vertext_buffers_;
+	mtr::Ref<IndexBuffer> index_buffer_;
 };
 
 __MTR_NS_END__

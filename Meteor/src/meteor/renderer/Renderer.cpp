@@ -15,6 +15,11 @@ __MTR_NS_BEGIN__
 
 Renderer::SceneData* Renderer::scene_data_ = new Renderer::SceneData;
 
+void Renderer::Init() 
+{
+	RendererCommand::Init();
+}
+
 void Renderer::BeginScene(OrthographicCamera& camera) 
 {
 	scene_data_->vp_matrix_ = camera.GetViewProjectionMatrix();
@@ -25,7 +30,7 @@ void Renderer::EndScene()
 
 }
 
-void Renderer::Submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertex_array, const glm::mat4& transfrom) 
+void Renderer::Submit(const mtr::Ref<Shader>& shader, const mtr::Ref<VertexArray>& vertex_array, const glm::mat4& transfrom) 
 {
 	shader->Bind();
 	std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4("u_ViewProjection", scene_data_->vp_matrix_);

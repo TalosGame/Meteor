@@ -24,7 +24,7 @@ private:
 	bool HandleWindowClose(WindowCloseEvent& evt);
 
 private:
-	std::unique_ptr<Window> window_;
+	mtr::Scope<Window> window_;
 	LayerStack layer_stack_;
 	bool running_ = true;
 

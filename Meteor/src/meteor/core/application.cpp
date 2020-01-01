@@ -3,10 +3,9 @@
 
 #include "Application.h"
 #include "time.h"
+#include "meteor/renderer/renderer.h"
 
 __MTR_NS_BEGIN__
-
-#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
 Application* Application::instance_ = nullptr;
 
@@ -14,8 +13,10 @@ Application::Application()
 {
 	instance_ = this;
 
-	window_ = std::unique_ptr<Window>(Window::Create());
-	window_->SetEventCallBack(BIND_EVENT_FN(HandleEvent));
+	window_ = mtr::Scope<Window>(Window::Create());
+	window_->SetEventCallBack(BIND_EVENT_FN(Application::HandleEvent));
+
+	Renderer::Init();
 }
 
 void Application::Run()
@@ -38,7 +39,7 @@ void Application::Run()
 void Application::HandleEvent(Event& e)
 {
 	EventDispatcher dispatcher(e);
-	dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(HandleWindowClose));
+	dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::HandleWindowClose));
 
 	for (auto it = layer_stack_.end(); it != layer_stack_.begin();)
 	{

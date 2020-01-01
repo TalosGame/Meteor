@@ -19,6 +19,11 @@ __MTR_NS_BEGIN__
 class RendererCommand
 {
 public:
+	inline static void Init() 
+	{
+		renderer_api_->Init();
+	}
+
 	inline static void SetClearColor(const glm::vec4& color)
 	{
 		renderer_api_->SetClearColor(color);
@@ -29,7 +34,7 @@ public:
 		renderer_api_->Clear();
 	}
 
-	inline static void DrawIndexed(const std::shared_ptr<VertexArray>& vertex_array) 
+	inline static void DrawIndexed(const mtr::Ref<VertexArray>& vertex_array) 
 	{
 		renderer_api_->DrawIndexed(vertex_array);
 	}

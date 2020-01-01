@@ -20,6 +20,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "Meteor/third_party/GLFW/include"
 IncludeDir["Glad"] = "Meteor/third_party/Glad/include"
 IncludeDir["glm"]  = "Meteor/third_party/glm"
+IncludeDir["stb_image"] = "Meteor/third_party/stb_image"
 
 group "Dependencies"
 	include "Meteor/third_party/GLFW"
@@ -44,6 +45,8 @@ project "Meteor"
 	{
 		"%{prj.name}/src/**.cpp",
 		"%{prj.name}/src/**.h",
+		"%{prj.name}/third_party/stb_image/**.h",
+		"%{prj.name}/third_party/stb_image/**.cpp",
 		"%{prj.name}/third_party/glm/glm/**.hpp",
 		"%{prj.name}/third_party/glm/glm/**.inl",
 	}
@@ -60,6 +63,7 @@ project "Meteor"
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}",
 	}
 
 	links 

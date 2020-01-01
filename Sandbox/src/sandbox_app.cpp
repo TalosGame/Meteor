@@ -8,6 +8,8 @@
 
 #include <meteor.h>
 
+#include "platform/opengl/opengl_shader.h"
+
 class TestLayer : public mtr::Layer
 {
 public:
@@ -18,12 +20,11 @@ public:
 			 0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
 			 0.0f,  0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f
 		};
-
 		uint32 indices[3] = { 0, 1, 2 };
 
 		vertex_array_.reset(mtr::VertexArray::Create());
 
-		std::shared_ptr<mtr::VertexBuffer> vertex_buffer;
+		mtr::Ref<mtr::VertexBuffer> vertex_buffer;
 		vertex_buffer.reset(mtr::VertexBuffer::Create(vertices, sizeof(vertices)));
 		{
 			mtr::BufferLayout layout = {
@@ -34,11 +35,38 @@ public:
 			vertex_buffer->set_layout(layout);
 		}
 
-		std::shared_ptr<mtr::IndexBuffer> index_buffer;
+		mtr::Ref<mtr::IndexBuffer> index_buffer;
 		index_buffer.reset(mtr::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32)));
 
 		vertex_array_->AddVertexBuffer(vertex_buffer);
 		vertex_array_->SetIndexBuffer(index_buffer);
+
+		float square_vertices[5 * 4] = {
+			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
+		};
+		uint32 square_indices[6] = { 0, 1, 2, 2, 3, 0 };
+
+		square_va_.reset(mtr::VertexArray::Create());
+
+		mtr::Ref<mtr::VertexBuffer> square_vb;
+		square_vb.reset(mtr::VertexBuffer::Create(square_vertices, sizeof(square_vertices)));
+		{
+			mtr::BufferLayout layout = {
+				{mtr::ShaderDataType::Float3, "a_Position"},
+				{mtr::ShaderDataType::Float2, "a_TexCoord"}
+			};
+
+			square_vb->set_layout(layout);
+		}
+
+		mtr::Ref<mtr::IndexBuffer> square_ib;
+		square_ib.reset(mtr::IndexBuffer::Create(square_indices, sizeof(square_indices) / sizeof(uint32)));
+
+		square_va_->AddVertexBuffer(square_vb);
+		square_va_->SetIndexBuffer(square_ib);
 
 		std::string vertex_src = R"(
 			#version 330 core
@@ -73,7 +101,13 @@ public:
 			}
 		)";
 
-		shader_.reset(mtr::Shader::Create(vertex_src, fragment_src));
+		shader_ = mtr::Shader::Create(vertex_src, fragment_src);
+
+		logo_texture_ = mtr::Texture2D::Create("res/Checkerboard.png");
+		auto tex_shader_ = mtr::ShaderManager::Load("res/shaders/texture.glsl");
+		
+		std::dynamic_pointer_cast<mtr::OpenGLShader>(tex_shader_)->Bind();
+		std::dynamic_pointer_cast<mtr::OpenGLShader>(tex_shader_)->UploadUniformInt("u_Texture", 0);
 	}
 
 	~TestLayer() = default;
@@ -118,9 +152,13 @@ public:
 
 		mtr::Renderer::BeginScene(camera_);
 		{
-			glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+			glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
 			glm::mat4 transfrom = glm::translate(glm::mat4(1.0f), obj_postion_) * scale;
-			mtr::Renderer::Submit(shader_, vertex_array_, transfrom);
+			//mtr::Renderer::Submit(shader_, vertex_array_, transfrom);
+
+			auto texture_shader = mtr::ShaderManager::Get("texture");
+			logo_texture_->Bind();
+			mtr::Renderer::Submit(texture_shader, square_va_, transfrom);
 		}
 		mtr::Renderer::EndScene();
 	}
@@ -137,8 +175,12 @@ public:
 private: 
 	mtr::OrthographicCamera camera_;
 
-	std::shared_ptr<mtr::VertexArray> vertex_array_;
-	std::shared_ptr<mtr::Shader> shader_;
+	mtr::Ref<mtr::VertexArray> vertex_array_;
+	mtr::Ref<mtr::Shader> shader_;
+
+	mtr::Ref<mtr::VertexArray> square_va_;
+	mtr::Ref<mtr::Texture2D> logo_texture_;
+	glm::vec3 square_color_ = { 0.2f, 0.3f, 0.8f };
 
 	glm::vec3 camera_postion_ = {0.0f, 0.0f, 0.0f};
 	float camera_rotation_ = 0.0f;

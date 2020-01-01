@@ -18,9 +18,10 @@ __MTR_NS_BEGIN__
 class OpenGLRendererAPI : public RendererAPI
 {
 public:
+	virtual void Init() override;
 	virtual void SetClearColor(const glm::vec4& color) override;
 	virtual void Clear() override;
-	virtual void DrawIndexed(const std::shared_ptr<VertexArray>& vertex_array) override;
+	virtual void DrawIndexed(const mtr::Ref<VertexArray>& vertex_array) override;
 };
 
 __MTR_NS_END__

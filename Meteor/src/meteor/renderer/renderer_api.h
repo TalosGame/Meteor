@@ -26,9 +26,10 @@ public:
 public:
 	inline static API get_api() { return kApi_; }
 
+	virtual void Init() = 0;
 	virtual void SetClearColor(const glm::vec4& color) = 0;
 	virtual void Clear() = 0;
-	virtual void DrawIndexed(const std::shared_ptr<VertexArray>& vertex_array) = 0;
+	virtual void DrawIndexed(const mtr::Ref<VertexArray>& vertex_array) = 0;
 	
 private:
 	static API kApi_;

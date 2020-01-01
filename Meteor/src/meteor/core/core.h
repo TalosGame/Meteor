@@ -11,6 +11,17 @@
 
 #include <memory>
 
+using int8 = char;
+using int16 = short;
+using int32 = int;
+using int64 = long long;
+using uint8 = unsigned char;
+using uint16 = unsigned short;
+using uint32 = unsigned int;
+using uint64 = unsigned long long;
+using uptr = uintptr_t;
+using iptr = intptr_t;
+
 #ifdef __cplusplus
 	#define __MTR_NS_BEGIN__	namespace mtr{
 	#define __MTR_NS_END__		}
@@ -44,15 +55,28 @@
 
 #define BIT(v) (1 << v)
 
-using int8 = char;
-using int16 = short;
-using int32 = int;
-using int64 = long long;
-using uint8 = unsigned char;
-using uint16 = unsigned short;
-using uint32 = unsigned int;
-using uint64 = unsigned long long;
-using uptr = uintptr_t;
-using iptr = intptr_t;
+#define BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
+
+// TODO Make Ref or Scope class in the future
+namespace mtr 
+{
+	template<typename T>
+	using Scope = std::unique_ptr<T>;
+	
+	template<typename T, typename ... Args>
+	const Scope<T> CreateScope(Args&& ... args) 
+	{
+		return std::make_unique<T>(std::forward<Args>(args)...);
+	}
+
+	template<typename T>
+	using Ref = std::shared_ptr<T>;
+
+	template<typename T, typename ... Args>
+	const Ref<T> CreateRef(Args&& ... args) 
+	{
+		return std::make_shared<T>(std::forward<Args>(args)...);
+	}
+};
 
 #endif // __MTR_CORE_H__

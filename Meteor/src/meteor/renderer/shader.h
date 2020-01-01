@@ -22,7 +22,22 @@ public:
 	virtual void Bind() = 0;
 	virtual void Unbind() = 0;
 
-	static Shader* Create(const std::string& vert_src, const std::string& frag_src);
+	virtual const std::string& GetName() const = 0;
+
+	static Ref<Shader> Create(const std::string& uri);
+	static Ref<Shader> Create(const std::string& vert_src, const std::string& frag_src);
+};
+
+class ShaderManager
+{
+public:
+	static Ref<Shader> Load(const std::string& uri);
+	static Ref<Shader> Get(const std::string& name);
+private:
+	static void Add(const std::string& name, const Ref<Shader>& shader);
+	static bool IsExists(const std::string& name);
+private:
+	static std::unordered_map<std::string, Ref<Shader>> shaders_;
 };
 
 __MTR_NS_END__
