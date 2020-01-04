@@ -14,19 +14,20 @@ public:
 
 	void Run();
 
-	void HandleEvent(Event& e);
+	void OnEvent(Event& e);
 
 	void PushLayer(Layer* layer);
 	void PushOverlay(Layer* layer);
 
 	inline static Application* get_instance() { return instance_; }
 private:
-	bool HandleWindowClose(WindowCloseEvent& evt);
-
+	bool OnWindowClose(WindowCloseEvent& evt);
+	bool OnWindowResize(WindowResizeEvent& evt);
 private:
 	mtr::Scope<Window> window_;
 	LayerStack layer_stack_;
 	bool running_ = true;
+	bool minimize_ = false;
 
 	float last_frame_time_ = 0.0f;
 private:

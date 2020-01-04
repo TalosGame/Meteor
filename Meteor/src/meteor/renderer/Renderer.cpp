@@ -20,9 +20,14 @@ void Renderer::Init()
 	RendererCommand::Init();
 }
 
+void Renderer::OnWindowResize(uint32 width, uint32 height) 
+{
+	RendererCommand::SetViewport(0, 0, width, height);
+}
+
 void Renderer::BeginScene(OrthographicCamera& camera) 
 {
-	scene_data_->vp_matrix_ = camera.GetViewProjectionMatrix();
+	scene_data_->vp_matrix_ = camera.view_projection_matrix();
 }
 
 void Renderer::EndScene() 

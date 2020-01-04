@@ -14,7 +14,7 @@ Application::Application()
 	instance_ = this;
 
 	window_ = mtr::Scope<Window>(Window::Create());
-	window_->SetEventCallBack(BIND_EVENT_FN(Application::HandleEvent));
+	window_->SetEventCallBack(BIND_EVENT_FN(Application::OnEvent));
 
 	Renderer::Init();
 }
@@ -27,23 +27,27 @@ void Application::Run()
 		Time dt = time - last_frame_time_;
 		last_frame_time_ = time;
 
-		for (auto layer : layer_stack_)
+		if (!minimize_) 
 		{
-			layer->Update(dt);
+			for (auto layer : layer_stack_)
+			{
+				layer->Update(dt);
+			}
 		}
 
 		window_->Update();
 	}
 }
 
-void Application::HandleEvent(Event& e)
+void Application::OnEvent(Event& e)
 {
 	EventDispatcher dispatcher(e);
-	dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::HandleWindowClose));
+	dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));
+	dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN(Application::OnWindowResize));
 
 	for (auto it = layer_stack_.end(); it != layer_stack_.begin();)
 	{
-		(*--it)->HandleEvent(e);
+		(*--it)->OnEvent(e);
 
 		if (e.handled) break;
 	}
@@ -59,10 +63,23 @@ void Application::PushOverlay(Layer * layer)
 	layer_stack_.PushOverlay(layer);
 }
 
-bool Application::HandleWindowClose(WindowCloseEvent& evt)
+bool Application::OnWindowClose(WindowCloseEvent& evt)
 {
 	running_ = false;
 	return true;
+}
+
+bool Application::OnWindowResize(WindowResizeEvent& evt)
+{
+	if (evt.width() == 0 || evt.height() == 0)
+	{
+		minimize_ = true;
+		return false;
+	}
+
+	minimize_ = false;
+	Renderer::OnWindowResize(evt.width(), evt.height());
+	return false;
 }
 
 __MTR_NS_END__

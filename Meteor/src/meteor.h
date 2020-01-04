@@ -13,6 +13,8 @@
 #include "meteor/core/key_codes.h"
 #include "meteor/core/mouse_codes.h"
 
+#include "meteor/core/camera_controller.h"
+
 /// Renderer//////////////////////////////////////////////////////////////
 #include "meteor/renderer/renderer.h"
 #include "meteor/renderer/renderer_command.h"
@@ -22,6 +24,7 @@
 #include "meteor/renderer/shader.h"
 #include "meteor/renderer/buffer.h"
 #include "meteor/renderer/vertex_array.h"
+
 #include "meteor/renderer/orthographic_camera.h"
 
 /// Entry Point //////////////////////////////////////////////////////////

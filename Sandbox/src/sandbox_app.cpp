@@ -13,7 +13,7 @@
 class TestLayer : public mtr::Layer
 {
 public:
-	TestLayer() : camera_(-1.6f, 1.6f, -0.9f, 0.9f)
+	TestLayer() : camera_controller_(1280.0f / 720.0f)
 	{
 		float vertices[3 * 7] = {
 			-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
@@ -114,43 +114,22 @@ public:
 
 	virtual void Update(mtr::Time dt) override
 	{
-		if (mtr::Input::IsKeyPressed(MTR_KEY_LEFT))
-			camera_postion_.x -= camera_move_speed_ * dt;
-		else if (mtr::Input::IsKeyPressed(MTR_KEY_RIGHT)) 
-			camera_postion_.x += camera_move_speed_ * dt;
-		
-		if (mtr::Input::IsKeyPressed(MTR_KEY_UP))
-			camera_postion_.y += camera_move_speed_ * dt;
-		else if (mtr::Input::IsKeyPressed(MTR_KEY_DOWN))
-			camera_postion_.y -= camera_move_speed_ * dt;
-
-		if (mtr::Input::IsKeyPressed(MTR_KEY_A))
-			camera_rotation_ -= camera_rotation_speed_ * dt;
-		if (mtr::Input::IsKeyPressed(MTR_KEY_D))
-			camera_rotation_ += camera_rotation_speed_ * dt;
+		camera_controller_.OnUpdate(dt);
 
 		if (mtr::Input::IsKeyPressed(MTR_KEY_J))
 			obj_postion_.x -= camera_move_speed_ * dt;
-		else if (mtr::Input::IsKeyPressed(MTR_KEY_L)) 
+		else if (mtr::Input::IsKeyPressed(MTR_KEY_L))
 			obj_postion_.x += camera_move_speed_ * dt;
-		
+
 		if (mtr::Input::IsKeyPressed(MTR_KEY_I))
 			obj_postion_.y += camera_move_speed_ * dt;
 		else if (mtr::Input::IsKeyPressed(MTR_KEY_K))
 			obj_postion_.y -= camera_move_speed_ * dt;
 
-		if (mtr::Input::IsKeyPressed(MTR_KEY_A))
-			camera_rotation_ -= camera_rotation_speed_ * dt;
-		if (mtr::Input::IsKeyPressed(MTR_KEY_D))
-			camera_rotation_ += camera_rotation_speed_ * dt;
-
-		camera_.SetPostion(camera_postion_);
-		camera_.SetRotaion(camera_rotation_);
-
 		mtr::RendererCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 		mtr::RendererCommand::Clear();
 
-		mtr::Renderer::BeginScene(camera_);
+		mtr::Renderer::BeginScene(camera_controller_.camera());
 		{
 			glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(1.0f));
 			glm::mat4 transfrom = glm::translate(glm::mat4(1.0f), obj_postion_) * scale;
@@ -163,17 +142,13 @@ public:
 		mtr::Renderer::EndScene();
 	}
 
-	virtual void HandleEvent(mtr::Event& evt) override 
+	virtual void OnEvent(mtr::Event& e) override 
 	{
-		if (evt.get_event_type() == mtr::EventType::kKeyPressed) 
-		{
-			auto e = (mtr::KeyPressedEvent&)evt;
-			MTR_INFO(e.get_key_code());
-		}
+		camera_controller_.OnEvent(e);
 	}
 
 private: 
-	mtr::OrthographicCamera camera_;
+	mtr::Camera2DController camera_controller_;
 
 	mtr::Ref<mtr::VertexArray> vertex_array_;
 	mtr::Ref<mtr::Shader> shader_;
@@ -181,9 +156,6 @@ private:
 	mtr::Ref<mtr::VertexArray> square_va_;
 	mtr::Ref<mtr::Texture2D> logo_texture_;
 	glm::vec3 square_color_ = { 0.2f, 0.3f, 0.8f };
-
-	glm::vec3 camera_postion_ = {0.0f, 0.0f, 0.0f};
-	float camera_rotation_ = 0.0f;
 
 	glm::vec3 obj_postion_ = { 0.0f, 0.0f, 0.0f };
 

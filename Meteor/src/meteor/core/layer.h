@@ -24,7 +24,7 @@ public:
 	virtual void Attach() {}
 	virtual void Detach() {}
 	virtual void Update(Time dt) = 0;
-	virtual void HandleEvent(Event& evt) {}
+	virtual void OnEvent(Event& e) {}
 
 	inline const std::string& get_name() { return debug_name_; }
 

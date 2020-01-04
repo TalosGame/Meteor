@@ -24,6 +24,11 @@ public:
 		renderer_api_->Init();
 	}
 
+	inline static void SetViewport(uint32 x, uint32 y, uint32 width, uint32 height)
+	{
+		renderer_api_->SetViewport(x, y, width, height);
+	}
+
 	inline static void SetClearColor(const glm::vec4& color)
 	{
 		renderer_api_->SetClearColor(color);

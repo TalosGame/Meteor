@@ -18,8 +18,8 @@ class WindowResizeEvent : public Event
 public:
 	WindowResizeEvent(uint32 width, uint32 height) : width_(width), height_(height) {}
 
-	inline uint32 get_width() { return width_; }
-	inline uint32 get_height() { return height_; }
+	inline uint32 width() { return width_; }
+	inline uint32 height() { return height_; }
 
 	std::string to_string() const override
 	{

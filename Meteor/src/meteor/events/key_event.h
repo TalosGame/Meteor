@@ -16,7 +16,7 @@ __MTR_NS_BEGIN__
 class MTR_API KeyEvent : public Event
 {
 public:
-	inline int get_key_code() { return key_code_; }
+	inline int key_code() { return key_code_; }
 
 	EVENT_CLASS_CATEGORY(kEventCategoryKeyboard | kEventCategoryInput)
 
@@ -31,7 +31,7 @@ class MTR_API KeyPressedEvent : public KeyEvent
 public:
 	KeyPressedEvent(int key_code, int repeat_count) : KeyEvent(key_code), repeat_count_(repeat_count) {}
 
-	inline int get_repeat_count() { return repeat_count_; }
+	inline int repeat_count() { return repeat_count_; }
 
 	std::string to_string() const override
 	{

@@ -24,9 +24,10 @@ public:
 		OpenGL,
 	};
 public:
-	inline static API get_api() { return kApi_; }
+	inline static API api() { return kApi_; }
 
 	virtual void Init() = 0;
+	virtual void SetViewport(uint32 x, uint32 y, uint32 width, uint32 height)  = 0;
 	virtual void SetClearColor(const glm::vec4& color) = 0;
 	virtual void Clear() = 0;
 	virtual void DrawIndexed(const mtr::Ref<VertexArray>& vertex_array) = 0;

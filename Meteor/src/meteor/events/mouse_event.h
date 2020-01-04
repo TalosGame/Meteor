@@ -18,8 +18,8 @@ class MTR_API MouseMovedEvent : public Event
 public:
 	MouseMovedEvent(float x, float y) : mouse_x_(x), mouse_y_(y) {}
 
-	inline float get_x() const { return mouse_x_; }
-	inline float get_y() const { return mouse_y_; }
+	inline float x() const { return mouse_x_; }
+	inline float y() const { return mouse_y_; }
 
 	std::string to_string() const override
 	{
@@ -39,7 +39,7 @@ private:
 class MTR_API MouseButtonEvent : public Event
 {
 public:
-	inline int get_mouse_button() const { return button_; }
+	inline int button() const { return button_; }
 
 	EVENT_CLASS_CATEGORY(kEventCategoryMouse | kEventCategoryInput)
 protected:
@@ -77,6 +77,28 @@ public:
 	}
 
 	EVENT_CLASS_TYPE(kMouseButtonReleased)
+};
+
+class MouseScrolledEvent : public Event
+{
+public:
+	MouseScrolledEvent(float x_offset, float y_offset) : x_offset_(x_offset), y_offset_(y_offset) {}
+
+	inline float x_offset() const { return x_offset_; }
+	inline float y_offset() const { return y_offset_; }
+
+	std::string to_string() const override 
+	{
+		std::stringstream ss;
+		ss << "MouseScrollEvent:" << x_offset() << ", " << y_offset();
+		return ss.str();
+	}
+
+	EVENT_CLASS_TYPE(kMouseScrolled)
+	EVENT_CLASS_CATEGORY(kEventCategoryMouse | kEventCategoryInput)
+private:
+	float x_offset_;
+	float y_offset_;
 };
 
 __MTR_NS_END__

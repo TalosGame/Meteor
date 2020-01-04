@@ -75,9 +75,9 @@ void WindowsWnd::init(const WindowProps& props)
 		data->call_back_(event);
 	});
 
-	glfwSetKeyCallback(window_, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+	glfwSetKeyCallback(window_, [](GLFWwindow* window, int key, int scancode, int action, int mods) 
+	{
 		WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
-
 		switch (action)
 		{
 			case GLFW_PRESS:
@@ -101,9 +101,9 @@ void WindowsWnd::init(const WindowProps& props)
 		}
 	});
 
-	glfwSetMouseButtonCallback(window_, [](GLFWwindow* window, int button, int action, int mods) {
+	glfwSetMouseButtonCallback(window_, [](GLFWwindow* window, int button, int action, int mods) 
+	{
 		WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
-
 		switch (action)
 		{
 			case GLFW_PRESS:
@@ -121,10 +121,19 @@ void WindowsWnd::init(const WindowProps& props)
 		}
 	});
 
-	glfwSetCursorPosCallback(window_, [](GLFWwindow* window, double xPos, double yPos) {
+	glfwSetCursorPosCallback(window_, [](GLFWwindow* window, double xPos, double yPos) 
+	{
 		WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
 
 		MouseMovedEvent event((float)xPos, (float)yPos);
+		data->call_back_(event);
+	});
+
+	glfwSetScrollCallback(window_, [](GLFWwindow* window, double x_offset, double y_offset) 
+	{
+		WindowData* data = (WindowData*)glfwGetWindowUserPointer(window);
+
+		MouseScrolledEvent event((float)x_offset, (float)y_offset);
 		data->call_back_(event);
 	});
 }

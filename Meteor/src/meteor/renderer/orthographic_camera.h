@@ -19,15 +19,17 @@ class OrthographicCamera
 public:
 	OrthographicCamera(float left, float right, float bottom, float top);
 
-	const glm::mat4& GetProjectionMatrix() const { return projection_matrix_; }
-	const glm::mat4& GetViewMatrix() const { return view_matrix_; }
-	const glm::mat4& GetViewProjectionMatrix() const { return vp_matrix_; }
+	void SetProjection(float left, float right, float bottom, float top);
 
-	void SetPostion(const glm::vec3& postion) { postion_ = postion; RecaculateVPMatrix(); }
-	const glm::vec3& GetPostion() const { return postion_; }
+	const glm::mat4& projection_matrix() const { return projection_matrix_; }
+	const glm::mat4& view_matrix() const { return view_matrix_; }
+	const glm::mat4& view_projection_matrix() const { return vp_matrix_; }
 
-	void SetRotaion(float rotation) { rotation_ = rotation; RecaculateVPMatrix(); }
-	float GetRotation() const { return rotation_; }
+	void set_postion(const glm::vec3& postion) { postion_ = postion; RecaculateVPMatrix(); }
+	const glm::vec3& postion() const { return postion_; }
+
+	void set_rotaion(float rotation) { rotation_ = rotation; RecaculateVPMatrix(); }
+	float rotation() const { return rotation_; }
 
 private:
 	void RecaculateVPMatrix();
