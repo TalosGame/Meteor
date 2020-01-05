@@ -9,6 +9,8 @@
 #include "mtrpch.h"
 #include "Renderer.h"
 #include "renderer_command.h"
+#include "renderer2d.h"
+
 #include "platform/opengl/opengl_shader.h"
  
 __MTR_NS_BEGIN__
@@ -18,6 +20,7 @@ Renderer::SceneData* Renderer::scene_data_ = new Renderer::SceneData;
 void Renderer::Init() 
 {
 	RendererCommand::Init();
+	Renderer2D::Init();
 }
 
 void Renderer::OnWindowResize(uint32 width, uint32 height) 

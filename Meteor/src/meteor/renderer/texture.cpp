@@ -13,6 +13,18 @@
  
 __MTR_NS_BEGIN__
 
+Ref<Texture2D> Texture2D::Create(float width, float height)
+{
+	switch (Renderer::GetApi())
+	{
+		case RendererAPI::API::None:		MTR_CORE_ASSERT(false, "RendererAPI::None type is wrong!") return nullptr;
+		case RendererAPI::API::OpenGL:		return CreateRef<OpenGLTexture2D>(width, height);
+	}
+
+	MTR_CORE_ASSERT(false, "Unknown RendererAPI!");
+	return nullptr;
+}
+
 Ref<Texture2D> Texture2D::Create(const std::string& path)
 {
 	switch (Renderer::GetApi())

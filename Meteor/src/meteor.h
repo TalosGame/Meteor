@@ -17,6 +17,7 @@
 
 /// Renderer//////////////////////////////////////////////////////////////
 #include "meteor/renderer/renderer.h"
+#include "meteor/renderer/renderer2d.h"
 #include "meteor/renderer/renderer_command.h"
 
 #include "meteor/renderer/texture.h"
@@ -26,6 +27,3 @@
 #include "meteor/renderer/vertex_array.h"
 
 #include "meteor/renderer/orthographic_camera.h"
-
-/// Entry Point //////////////////////////////////////////////////////////
-#include "meteor/core/entry_point.h"

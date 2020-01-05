@@ -59,7 +59,7 @@ void OpenGLVertexArray::AddVertexBuffer(const mtr::Ref<VertexBuffer>& vertex_buf
 	glBindVertexArray(renderer_id_);
 	vertex_buffer->Bind();
 
-	const auto& layout = vertex_buffer->get_layout();
+	const auto& layout = vertex_buffer->layout();
 	for (const auto& element : layout)
 	{
 		glEnableVertexAttribArray(vertext_buffer_index_);
@@ -67,7 +67,7 @@ void OpenGLVertexArray::AddVertexBuffer(const mtr::Ref<VertexBuffer>& vertex_buf
 							  element.GetComponentCount(),
 							  ShaderDataType2OGLType(element.type_),
 							  element.normalized_ ? GL_TRUE : GL_FALSE,
-							  layout.get_stride(),
+							  layout.stride(),
 							  (const void*)element.offset_);
 
 		vertext_buffer_index_++;

@@ -20,6 +20,7 @@ __MTR_NS_BEGIN__
 class OpenGLTexture2D : public Texture2D
 {
 public:
+	OpenGLTexture2D(float width, float height);
 	OpenGLTexture2D(const std::string& path);
 	virtual ~OpenGLTexture2D();
 	

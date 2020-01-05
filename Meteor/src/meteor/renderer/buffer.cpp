@@ -13,24 +13,24 @@
 
 __MTR_NS_BEGIN__
 
-VertexBuffer* VertexBuffer::Create(float * vertices, uint64 size)
+Ref<VertexBuffer> VertexBuffer::Create(float * vertices, uint64 size)
 {
 	switch (Renderer::GetApi())
 	{
 		case RendererAPI::API::None:		MTR_CORE_ASSERT(false, "RendererAPI::None type is wrong!") return nullptr;
-		case RendererAPI::API::OpenGL:		return new OpenGLVertexBuffer(vertices, size);
+		case RendererAPI::API::OpenGL:		return CreateRef<OpenGLVertexBuffer>(vertices, size);
 	}
 
 	MTR_CORE_ASSERT(false, "Unknown RendererAPI!");
 	return nullptr;
 }
 
-IndexBuffer * IndexBuffer::Create(uint32 * indices, uint32 count)
+Ref<IndexBuffer> IndexBuffer::Create(uint32 * indices, uint32 count)
 {
 	switch (Renderer::GetApi())
 	{
 		case RendererAPI::API::None:		MTR_CORE_ASSERT(false, "RendererAPI::None type is wrong!") return nullptr;
-		case RendererAPI::API::OpenGL:		return new OpenGLIndexBuffer(indices, count);
+		case RendererAPI::API::OpenGL:		return CreateRef<OpenGLIndexBuffer>(indices, count);
 	}
 
 	MTR_CORE_ASSERT(false, "Unknown RendererAPI!");

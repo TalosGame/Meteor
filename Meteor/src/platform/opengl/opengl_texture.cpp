@@ -19,6 +19,23 @@ enum class ChannelOrderType
 	kRGBA = 4,
 };
 
+OpenGLTexture2D::OpenGLTexture2D(float width, float height) : width_(width), height_(height)
+{
+	interanl_format_ = GL_RGBA8;
+	data_format_ = GL_RGBA;
+
+	glCreateTextures(GL_TEXTURE_2D, 1, &renderer_id_);
+	glTextureStorage2D(renderer_id_, 1, interanl_format_, width_, height_);
+
+	// 纹理缩小或放大采用的过滤方式 - 线性插值
+	glTextureParameteri(renderer_id_, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTextureParameteri(renderer_id_, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+	// 纹理平铺方式
+	glTextureParameteri(renderer_id_, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTextureParameteri(renderer_id_, GL_TEXTURE_WRAP_T, GL_REPEAT);
+}
+
 OpenGLTexture2D::OpenGLTexture2D(const std::string& path) : path_(path), interanl_format_(0), data_format_(0)
 {
 	int width, height, channels;
@@ -66,7 +83,9 @@ OpenGLTexture2D::~OpenGLTexture2D()
 
 void OpenGLTexture2D::SetData(void * data, uint32 size)
 {
-
+	uint32 bpp = data_format_ == GL_RGBA ? 4 : 3;
+	MTR_CORE_ASSERT(size == width_ * height_ * bpp, "Data must be entire texture!");
+	glTextureSubImage2D(renderer_id_, 0, 0, 0, width_, height_, data_format_, GL_UNSIGNED_INT, data);
 }
 
 void OpenGLTexture2D::Bind(uint32 slot)

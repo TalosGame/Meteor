@@ -24,7 +24,7 @@ public:
 	virtual void Bind() const override;
 	virtual void Unbind() const override;
 
-	virtual const BufferLayout& get_layout() const override { return layout_; };
+	virtual const BufferLayout& layout() const override { return layout_; };
 	virtual void set_layout(const BufferLayout& layout) override { layout_ = layout; };
 
 private:
@@ -40,7 +40,7 @@ public:
 
 	virtual void Bind() const override;
 	virtual void Unbind() const override;
-	virtual uint32 get_count() const { return count_; };
+	virtual uint32 count() const { return count_; };
 
 private:
 	uint32 renderer_id_;

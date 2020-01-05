@@ -29,6 +29,7 @@ public:
 class Texture2D : public Texture
 {
 public:
+	static Ref<Texture2D> Create(float width, float height);
 	static Ref<Texture2D> Create(const std::string& path);
 };
 

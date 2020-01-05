@@ -93,7 +93,7 @@ public:
 
 	~BufferLayout() = default;
 
-	inline uint32 get_stride() const { return stride_; }
+	inline uint32 stride() const { return stride_; }
 
 	std::vector<BufferElement>::iterator begin() { return elements_.begin(); }
 	std::vector<BufferElement>::iterator end() { return elements_.end(); }
@@ -123,10 +123,10 @@ public:
 	virtual void Bind() const = 0;
 	virtual void Unbind() const = 0;
 
-	virtual const BufferLayout& get_layout() const = 0;
+	virtual const BufferLayout& layout() const = 0;
 	virtual void set_layout(const BufferLayout& layout) = 0;
 
-	static VertexBuffer* Create(float* vertices, uint64 size);
+	static Ref<VertexBuffer> Create(float* vertices, uint64 size);
 };
 
 class IndexBuffer
@@ -136,9 +136,9 @@ public:
 
 	virtual void Bind() const = 0;
 	virtual void Unbind() const = 0;
-	virtual uint32 get_count() const = 0;
+	virtual uint32 count() const = 0;
 
-	static IndexBuffer* Create(uint32* indices, uint32 count);
+	static Ref<IndexBuffer> Create(uint32* indices, uint32 count);
 };
 
 __MTR_NS_END__

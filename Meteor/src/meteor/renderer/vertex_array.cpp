@@ -13,12 +13,12 @@
 
 __MTR_NS_BEGIN__
 
-VertexArray* VertexArray::Create()
+Ref<VertexArray> VertexArray::Create()
 {
 	switch (Renderer::GetApi())
 	{
 		case RendererAPI::API::None:		MTR_CORE_ASSERT(false, "RendererAPI::None type is wrong!") return nullptr;
-		case RendererAPI::API::OpenGL:		return new OpenGLVertexArray();
+		case RendererAPI::API::OpenGL:		return CreateRef<OpenGLVertexArray>();
 	}
 
 	MTR_CORE_ASSERT(false, "Unknown RendererAPI!");

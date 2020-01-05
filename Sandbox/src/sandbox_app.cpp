@@ -7,8 +7,10 @@
  */
 
 #include <meteor.h>
+#include <meteor/core/entry_point.h>
 
 #include "platform/opengl/opengl_shader.h"
+#include "game_layer.h"
 
 class TestLayer : public mtr::Layer
 {
@@ -22,10 +24,10 @@ public:
 		};
 		uint32 indices[3] = { 0, 1, 2 };
 
-		vertex_array_.reset(mtr::VertexArray::Create());
+		vertex_array_ = mtr::VertexArray::Create();
 
 		mtr::Ref<mtr::VertexBuffer> vertex_buffer;
-		vertex_buffer.reset(mtr::VertexBuffer::Create(vertices, sizeof(vertices)));
+		vertex_buffer = mtr::VertexBuffer::Create(vertices, sizeof(vertices));
 		{
 			mtr::BufferLayout layout = {
 				{mtr::ShaderDataType::Float3, "a_Position"},
@@ -36,7 +38,7 @@ public:
 		}
 
 		mtr::Ref<mtr::IndexBuffer> index_buffer;
-		index_buffer.reset(mtr::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32)));
+		index_buffer = mtr::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32));
 
 		vertex_array_->AddVertexBuffer(vertex_buffer);
 		vertex_array_->SetIndexBuffer(index_buffer);
@@ -49,10 +51,10 @@ public:
 		};
 		uint32 square_indices[6] = { 0, 1, 2, 2, 3, 0 };
 
-		square_va_.reset(mtr::VertexArray::Create());
+		square_va_ = mtr::VertexArray::Create();
 
 		mtr::Ref<mtr::VertexBuffer> square_vb;
-		square_vb.reset(mtr::VertexBuffer::Create(square_vertices, sizeof(square_vertices)));
+		square_vb = mtr::VertexBuffer::Create(square_vertices, sizeof(square_vertices));
 		{
 			mtr::BufferLayout layout = {
 				{mtr::ShaderDataType::Float3, "a_Position"},
@@ -63,7 +65,7 @@ public:
 		}
 
 		mtr::Ref<mtr::IndexBuffer> square_ib;
-		square_ib.reset(mtr::IndexBuffer::Create(square_indices, sizeof(square_indices) / sizeof(uint32)));
+		square_ib = mtr::IndexBuffer::Create(square_indices, sizeof(square_indices) / sizeof(uint32));
 
 		square_va_->AddVertexBuffer(square_vb);
 		square_va_->SetIndexBuffer(square_ib);
@@ -168,7 +170,8 @@ class Sandbox : public mtr::Application
 public:
 	Sandbox()
 	{
-		PushLayer(new TestLayer());
+		//PushLayer(new TestLayer());
+		PushLayer(new GameLayer());
 	}
 
 	~Sandbox()
