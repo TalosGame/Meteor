@@ -23,6 +23,8 @@ public:
 	OpenGLTexture2D(float width, float height);
 	OpenGLTexture2D(const std::string& path);
 	virtual ~OpenGLTexture2D();
+
+	virtual uint32 GetHandle() const override { return renderer_id_; }
 	
 	virtual uint32 GetWidth() const override { return width_; };
 	virtual uint32 GetHeight() const override { return height_; };
@@ -30,6 +32,11 @@ public:
 	virtual void SetData(void * data, uint32 size) override;
 
 	virtual void Bind(uint32 slot = 0) override;
+
+	virtual bool operator==(Texture& other) 
+	{
+		return renderer_id_ == other.GetHandle();
+	}
 private:
 	std::string path_;
 	uint32 renderer_id_;

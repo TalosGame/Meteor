@@ -18,11 +18,14 @@ __MTR_NS_BEGIN__
 class OpenGLVertexBuffer : public VertexBuffer
 {
 public:
+	OpenGLVertexBuffer(uint64 size);
 	OpenGLVertexBuffer(float* vertices, uint64 size);
 	virtual ~OpenGLVertexBuffer();
 
 	virtual void Bind() const override;
 	virtual void Unbind() const override;
+
+	virtual void SetData(const void* data, uint32 size) override;
 
 	virtual const BufferLayout& layout() const override { return layout_; };
 	virtual void set_layout(const BufferLayout& layout) override { layout_ = layout; };

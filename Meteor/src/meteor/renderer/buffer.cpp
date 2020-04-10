@@ -13,6 +13,18 @@
 
 __MTR_NS_BEGIN__
 
+Ref<VertexBuffer> VertexBuffer::Create(uint64 size)
+{
+	switch (Renderer::GetApi())
+	{
+		case RendererAPI::API::None:		MTR_CORE_ASSERT(false, "RendererAPI::None type is wrong!") return nullptr;
+		case RendererAPI::API::OpenGL:		return CreateRef<OpenGLVertexBuffer>(size);
+	}
+
+	MTR_CORE_ASSERT(false, "Unknown RendererAPI!");
+	return nullptr;
+}
+
 Ref<VertexBuffer> VertexBuffer::Create(float * vertices, uint64 size)
 {
 	switch (Renderer::GetApi())

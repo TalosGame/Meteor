@@ -16,6 +16,13 @@ __MTR_NS_BEGIN__
 //////////////////////////////////////////////////////////////////////////
 ///Vertex Buffer///////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
+OpenGLVertexBuffer::OpenGLVertexBuffer(uint64 size) 
+{
+	glCreateBuffers(1, &renderer_id_);
+	glBindBuffer(GL_ARRAY_BUFFER, renderer_id_);
+	glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
+}
+
 OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint64 size)
 {
 	glCreateBuffers(1, &renderer_id_);
@@ -36,6 +43,12 @@ void OpenGLVertexBuffer::Bind() const
 void OpenGLVertexBuffer::Unbind() const
 {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void OpenGLVertexBuffer::SetData(const void* data, uint32 size)
+{
+	glBindBuffer(GL_ARRAY_BUFFER, renderer_id_);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
 }
 
 //////////////////////////////////////////////////////////////////////////

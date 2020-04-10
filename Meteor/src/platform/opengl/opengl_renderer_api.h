@@ -22,7 +22,7 @@ public:
 	virtual void SetViewport(uint32 x, uint32 y, uint32 width, uint32 height) override;
 	virtual void SetClearColor(const glm::vec4& color) override;
 	virtual void Clear() override;
-	virtual void DrawIndexed(const mtr::Ref<VertexArray>& vertex_array) override;
+	virtual void DrawIndexed(const mtr::Ref<VertexArray>& vertex_array, uint32 index_count = 0) override;
 };
 
 __MTR_NS_END__
